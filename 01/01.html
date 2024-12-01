@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="UTF-8">
+<title>Page Title</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="">
+<style>
+</style>
+<body onload="getData()">
+</body>
+<script>
+    async function getData() {
+      const url1 = "http://192.168.178.63:8080/aoc2";
+      try {
+        const response1 = await fetch(url1);
+        if (!response1.ok) {
+          throw new Error(`Response status: ${response1.status}`);
+        }
+        json = await response1.json();
+      } catch (error) {
+        console.error(error.message);
+      }
+      parseData(json);
+    };
+    function parseData(array) {
+        let list1 = []
+        let list2 = []
+        for (let i = 0; i < array.length; i++) {
+            let cache = array[i].split('   ')
+            list1.push(cache[0]);
+            list2.push(cache[1]);
+        }
+        list1.sort(compareNumbers);
+        list2.sort(compareNumbers);
+        let solution = 0;
+        for (let j = 0; j < list1.length; j++) {
+            let index = 0;
+            for (let k = 0; k < list2.length;k++) {
+                if (list2[k] == list1[j]) {
+                    index += 1;
+                }
+            }
+            solution +=index * list1[j];
+        }
+        console.log(solution);
+    }
+    function compareNumbers(a, b) {
+        return a - b;
+    }
+</script>
+</html>
